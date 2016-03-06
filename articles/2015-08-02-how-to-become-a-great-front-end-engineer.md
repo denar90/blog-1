@@ -2,6 +2,8 @@
 template: article.html
 title: "How to Become a Great Front-End Engineer"
 date: 2015-08-02T15:39:17-07:00
+translations:
+  korean: http://hyunseob.github.io/2016/02/21/how-to-become-a-great-frontend-engineer/
 ---
 
 I recently received an email from a reader of my blog that, for whatever reason, really got me thinking. Here's what it said:
