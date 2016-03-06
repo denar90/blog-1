@@ -2,6 +2,10 @@
 template: article.html
 title: "What No One Told You About Z-Index"
 date: 2013-01-15T11:17:39-08:00
+translations:
+  - french:
+    - http://iamvdo.me/blog/comprendre-z-index-et-les-contextes-dempilement
+    - http://philipwalton.developpez.com/tutoriels/css/connaitre-z-index/
 ---
 
 The problem with z-index is that very few people understand how it really works. It's not complicated, but it if you've never taken the time to read its specification, there are almost certainly crucial aspects that you're completely unaware of.

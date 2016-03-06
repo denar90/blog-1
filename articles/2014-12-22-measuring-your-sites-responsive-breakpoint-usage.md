@@ -2,6 +2,8 @@
 template: article.html
 title: "Measuring Your Site's Responsive Breakpoint Usage"
 date: 2014-12-22T22:38:36-08:00
+translations:
+  - portuguese: http://imasters.com.br/analytics/medindo-o-uso-do-breakpoint-responsivo-de-um-site/
 ---
 
 Most web analytics tools will give you a lot of information about your users' devices. These insights can be extremely useful for measuring trends and are particularly important if you have a separate mobile and desktop site or a different design for Android and iOS. But if you've built your site responsively, device information just doesn't tell the whole story.

@@ -2,6 +2,8 @@
 template: article.html
 title: "Side Effects in CSS"
 date: 2015-03-03T21:25:06-08:00
+translations:
+  - portuguese: http://imasters.com.br/front-end/css/efeitos-colaterais-no-css/
 ---
 
 It feels like every few days I read about some shiny new way people are writing CSS. Many of these "new" ways are not actually new, they're variations on one or more well-known methodologies, but with a few changes sprinkled on top.
