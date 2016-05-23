@@ -2,6 +2,8 @@
 template: article.html
 title: "Houdini: Maybe the Most Exciting Development in CSS You've Never Heard Of"
 date: 2016-03-24T15:43:07-07:00
+translations:
+  - chinese :https://zhuanlan.zhihu.com/p/20939640
 ---
 
 Earlier this year I had the privileged of attending the [CSS Houdini](https://wiki.css-houdini.org/) Task Force [face-to-face meeting](https://github.com/w3c/css-houdini-drafts/wiki/Sydney-F2F-January-2016) in Sydney, Australia. While there I got to meet many of the Houdini members (most of whom work on browser rendering engines), and I got to see a bit of how the standards process works.
