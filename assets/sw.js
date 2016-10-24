@@ -1,5 +1,7 @@
 require('async-waituntil-polyfill');
 
+const idbKeyval = require('idb-keyval');
+
 
 const offlineGoogleAnalytics = require(
     'sw-helpers/projects/sw-offline-google-analytics/src');
@@ -57,20 +59,55 @@ const getCacheResponse = async (request) => {
 };
 
 
+// self.addEventListener('fetch', (event) => {
+//   if (assetUrlParts.some((part) => part.test(event.request.url))) {
+//     event.respondWith((async () => {
+//       try {
+//         const networkResponse = await fetch(event.request);
+//         event.waitUntil(addToCache(event.request, networkResponse.clone()));
+//         return networkResponse;
+//       } catch (err) {
+//         const cacheResponse = await getCacheResponse(event.request);
+//         return cacheResponse || err;
+//       }
+//     })());
+//   }
+// });
+
+
+
+function sleep(time) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+}
+
 self.addEventListener('fetch', (event) => {
-  if (assetUrlParts.some((part) => part.test(event.request.url))) {
-    event.respondWith((async () => {
-      try {
-        const networkResponse = await fetch(event.request);
-        event.waitUntil(addToCache(event.request, networkResponse.clone()));
-        return networkResponse;
-      } catch (err) {
-        const cacheResponse = await getCacheResponse(event.request);
-        return cacheResponse || err;
-      }
-    })());
+  if (event.request.url.includes('message')) {
+    const dataIsRetreivedAndSent = async () => {
+      const requestClone = event.request.clone();
+      const requestPayloadData = JSON.parse(await requestClone.text());
+      return idbKeyval.set(`${Date.now()}:fetch:${requestPayloadData.eventAction}`, requestPayloadData);
+    }
+
+    // event.waitUntil();
+    event.respondWith(
+        dataIsRetreivedAndSent()
+            .then(() => fetch(event.request.url))
+            .catch((err) => fetch(`${event.request.url}${err.message}`))
+    );
+    // event.respondWith(fetch(event.request));
   }
 });
+
+
+self.addEventListener('message', (event) => {
+  // if (event.data.command == 'SEND_BEACON') {
+    event.waitUntil(
+        idbKeyval.set(`${Date.now()}:message:${event.data.eventAction}`, event.data)
+            .catch((err) => fetch(`/${event.data.eventAction}:${err.message}`))
+    );
+  // }
+});
+
 
 
 self.addEventListener('install', (event) => {
@@ -83,6 +120,6 @@ self.addEventListener('activate', (event) => {
 });
 
 
-offlineGoogleAnalytics.initialize({
-  parameterOverrides: {[dimensions.SERVICE_WORKER_REPLAY]: 'replay'},
-});
+// offlineGoogleAnalytics.initialize({
+//   parameterOverrides: {[dimensions.SERVICE_WORKER_REPLAY]: 'replay'},
+// });
