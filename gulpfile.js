@@ -32,6 +32,9 @@ const webpack = require('webpack');
 const book = require('./book');
 
 
+const swBuild = require('sw-build');
+
+
 // Default to development mode.
 if (!process.env.NODE_ENV) process.env.NODE_ENV = 'development';
 
@@ -284,6 +287,29 @@ gulp.task('static', () => {
 });
 
 
+gulp.task('service-worker2', () => {
+  const fileManifestData = swBuild.getFileManifestEntries({
+    rootDirectory: 'build/',
+    globPatterns: [
+      'build/assets/favicon.ico',
+      'build/assets/{javascript,css}/main.{js,css}',
+    ],
+    templatedUrls: {
+      '/': [
+        'templates/index.html',
+        'templates/page.html',
+        'templates/base.html',
+        'templates/_*.html',
+        'articles/*.md',
+      ]
+    },
+  });
+
+  fs.writeFileSync('assets/file-manifest.js',
+      `export default ${JSON.stringify(fileManifestData, null, 2)};\n`);
+});
+
+
 gulp.task('service-worker', ((compiler) => {
   const createCompiler = () => {
     const entry = './assets/sw.js';
@@ -302,7 +328,6 @@ gulp.task('service-worker', ((compiler) => {
           query: {
             babelrc: false,
             cacheDirectory: false,
-            presets: ['babili'],
             plugins: ['transform-async-to-generator'],
           },
         }],
